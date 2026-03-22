@@ -1,0 +1,86 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="BarangayCommuNet_Mockup.SiteMaster" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Barangay CommuNet</title>
+    <link rel="stylesheet" type="text/css" href="Styles.css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+</head>
+<body>
+    <form id="masterForm" runat="server" enctype="multipart/form-data">
+<div id="top-container">
+    <div id="header">
+        <div class="header-content">
+            <img src="Images/CommuNetLogoLight.png" alt="Logo" class="logo"/>
+            <div>
+                <h1>BARANGAY COMMUNET</h1>
+                <p>Efficiency in Motion, Community in Mind.</p>
+            </div>
+        </div>
+    </div>
+    <div id="navbar">
+    <ul>
+        <% if (Session["Role"] == null || Session["Role"].ToString() == "Resident") { %>
+            <li><a href="ResidentDashboard.aspx">Dashboard</a></li>
+            <li><a href="Collection.aspx">Collection Schedule</a></li>
+            <li><a href="AnnouncementsPage.aspx">Announcements</a></li>
+            <% if (Session["Username"] != null) { %>
+                <li><a href="SubmitConcerns.aspx">Submit Concerns</a></li>
+                <li><a href="TrackConcernPage.aspx">Track Concerns</a></li>
+            <% } %>
+        <% } %>
+        <% if (Session["Role"] != null && Session["Role"].ToString() == "Admin") { %>
+            <li><a href="AdminDashboard.aspx">Dashboard</a></li>
+            <li><a href="ManageGarbageSchedule.aspx">Manage Schedule</a></li>
+            <li><a href="AnnouncementManagementPage.aspx">Manage Announcements</a></li>
+            <li><a href="AdminConcerns.aspx">Manage Concerns</a></li>
+        <% } %>
+    </ul>
+</div>
+</div>
+<div id="profile-menu">
+    <img src="Images/profileIcon.png" alt="Profile" id="profile-icon" onclick="toggleDropdown()" />
+    <div id="dropdown" class="dropdown-hidden">
+        <% if (Session["Username"] != null) { %>
+            <span><%= Session["Username"] %></span>
+            <small><%= Session["Role"] %></small>
+            <hr/>
+            <a href="Logout.aspx">Log Out</a>
+        <% } else { %>
+            <span>Guest User</span>
+            <hr/>
+            <a href="LandingPage.aspx">Log In / Register</a>
+        <% } %>
+    </div>
+</div>
+        <div id="main-wrapper">
+            <div id="content-area">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
+            </div>
+        </div>
+        <div id="footer">
+            <div id="footer-content">
+                <div id="footer-brand">
+                    <h3>BARANGAY COMMUNET</h3>
+                    <p>Connecting the Community Digitally</p>
+                </div>
+                <div id="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>Email: barangay@communet.gov.ph</p>
+                    <p>Phone: (02) 8123-4567</p>
+                    <p>Office Hours: Mon–Fri, 8:00 AM – 5:00 PM</p>
+                </div>
+                <div id="footer-report">
+                    <h4>Report a Feature</h4>
+                    <p>Found a bug or have a suggestion?</p>
+                    <p>Email: barangay@communet.gov.ph</p>
+                    <p>Phone: (02) 8123-4567</p>
+                </div>
+            </div>
+            <div id="footer-bottom">
+                <p>&copy; <%= DateTime.Now.Year %> Barangay CommuNet. All rights reserved.</p>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
